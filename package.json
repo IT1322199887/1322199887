@@ -12,6 +12,7 @@
     "core-js": "^3.8.3",
     "echarts": "^5.4.2",
     "mockjs": "^1.1.0",
+    "store": "^2.0.12",
     "view-design": "^4.7.0",
     "vue": "^2.6.14",
     "vue-router": "^3.5.1",

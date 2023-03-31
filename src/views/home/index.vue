@@ -1,6 +1,7 @@
 <template>
   <div>
     <div ref="echarts" id="echarts"></div>
+    <div class="style-class"></div>
   </div>
 </template>
 

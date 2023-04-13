@@ -1,58 +1,61 @@
 <template>
   <div>
-    <div ref="echarts" id="echarts"></div>
-    <div class="style-class"></div>
+    <!-- <h1>双色球</h1> -->
+    <div>
+      <span v-for="(ball, index) in redBalls" :key="index">{{ ball }} </span>
+      <span v-if="blueBall">{{ blueBall }}</span>
+    </div>
+    <button @click="start">开始滚动</button>
+    <!-- <h2>历史中奖号码</h2> -->
+    <ul>
+      <li v-for="(history, index) in histories" :key="index">
+        {{ history.join(" ") }}
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
-import storage from "store";
 export default {
   data() {
     return {
-      option: {
-        xAxis: {
-          type: "category",
-          data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-        },
-        yAxis: {
-          type: "value",
-        },
-        series: [
-          {
-            data: [150, 230, 224, 218, 135, 147, 260],
-            type: "line",
-          },
-        ],
-      },
+      redBalls: [],
+      blueBall: null,
+      histories: [],
     };
   },
-  created() {
-    storage.set("111", "111111111111");
-    console.log(storage.get("111"));
-    this.getData();
-    this.getEcharts()
-  },
+  created() {},
   methods: {
-    getData() {
-      let params = {};
-      this.$api.user.login(params).then((res) => {
-        console.log(res);
-      });
-    },
-    getEcharts() {
-      this.$nextTick(() => {
-        let echarts = this.$echarts.init(this.$refs.echarts);
-        echarts.setOption(this.option, true);
-      });
+    start() {
+      let self = this;
+      self.redBalls = [];
+      self.blueBall = null;
+      rollRedBall();
+      function rollRedBall() {
+        let rolledNumber;
+        // 每次随机一个1到33之间的数字，直到这个数字没有在已滚出的红球号码中出现过
+        do {
+          rolledNumber = Math.floor(Math.random() * 33) + 1;
+        } while (self.redBalls.includes(rolledNumber));
+        // 将这个数字加入已滚出的红球号码中
+        self.redBalls.push(rolledNumber);
+        // 如果已经滚动了6次，就进行排序，并将蓝球号码加入结果中
+        if (self.redBalls.length === 6) {
+          self.redBalls.sort((a, b) => a - b);
+          self.blueBall = Math.floor(Math.random() * 16) + 1;
+          console.log(`中奖号码：${self.redBalls.join(" ")} ${self.blueBall}`);
+          // 将中奖号码保存到历史记录中
+          self.histories.push([...self.redBalls, self.blueBall]);
+        }
+        // 如果还没有滚动6次，就每隔1分钟再滚动一次红球
+        else {
+          setTimeout(rollRedBall, 6000);
+        }
+      }
     },
   },
 };
 </script>
 
 <style lang="less" scoped>
-#echarts {
-  width: 1000px;
-  height: 650px;
-}
 </style>

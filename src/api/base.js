@@ -1,5 +1,5 @@
 const base = {
-    OSPF: "http://10.0.0.100"
+    OSPF: "http://127.0.0.1:3000"
 }
 
 export default base.OSPF

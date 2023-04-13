@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import "./mock"
+// import "./mock"
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -10,6 +10,8 @@ import "@/style/index.less"
 import * as echarts from "echarts"
 import plugin from './plugin'
 import utils from "./utils/utils"
+import "./utils/china"
+import "./utils/world"
 Vue.config.productionTip = false
 Vue.prototype.$api = api
 Vue.prototype.$echarts = echarts

@@ -1,15 +1,15 @@
 import request from "@/utils/request"
 import base from "./base"
 
-let BASEROOT = base + "/api/v1"
+let BASEROOT = base
 if (process.env.NODE_ENV == "production") {
-    BASEROOT = process.env.VUE_APP_URL + "/api/v1"
+    BASEROOT = process.env.VUE_APP_URL
 }
 const user = {
     login(data) {
         return request({
-            url: BASEROOT + "/login",
-            method: "post",
+            url: BASEROOT + "/data",
+            method: "get",
             params: data
         })
     }
